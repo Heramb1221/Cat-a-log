@@ -1,0 +1,52 @@
+{
+  "expo": {
+    "name": "Cat-a-log",
+    "slug": "cat-a-log",
+    "scheme": "catalog",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FDF8F0"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.yourname.catalog",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Cat-a-log needs your camera to snap photos of cats you meet.",
+        "NSPhotoLibraryAddUsageDescription": "Cat-a-log can save cat stickers to your photo library."
+      }
+    },
+    "android": {
+      "package": "com.yourname.catalog",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FDF8F0"
+      },
+      "permissions": ["CAMERA", "READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE"]
+    },
+    "plugins": [
+      "expo-router",
+      "expo-dev-client",
+      "expo-font",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Cat-a-log needs your camera to snap photos of cats you meet."
+        }
+      ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "REPLACE_WITH_YOUR_EAS_PROJECT_ID"
+      }
+    }
+  }
+}
