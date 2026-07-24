@@ -17,6 +17,7 @@
     "@react-native-async-storage/async-storage": "1.23.1",
     "@six33/react-native-bg-removal": "^1.0.0",
     "expo": "~51.0.0",
+    "expo-build-properties": "~0.12.5",
     "expo-camera": "~15.0.0",
     "expo-constants": "~16.0.0",
     "expo-dev-client": "~4.0.0",
