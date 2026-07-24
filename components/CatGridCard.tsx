@@ -8,17 +8,22 @@ interface CatGridCardProps {
   cat: SavedCat;
   onPress?: () => void;
   onSharePress?: () => void;
+  onRenamePress?: () => void;
 }
 
 const CARD_SIZE = 150;
 
-export function CatGridCard({ cat, onPress, onSharePress }: CatGridCardProps) {
+export function CatGridCard({ cat, onPress, onSharePress, onRenamePress }: CatGridCardProps) {
   return (
     <Pressable style={styles.container} onPress={onPress}>
       <Sticker uri={cat.stickerUri} size={CARD_SIZE} rotationDeg={cat.rotationDeg} />
-      <Text style={styles.name} numberOfLines={1}>
-        {cat.name}
-      </Text>
+      <Pressable style={styles.nameRow} onPress={onRenamePress}>
+        <Text style={styles.name} numberOfLines={1}>
+          {cat.name}
+        </Text>
+        <Text style={styles.editIcon}>✎</Text>
+      </Pressable>
+
       <Pressable hitSlop={10} style={styles.shareButton} onPress={onSharePress}>
         <Text style={styles.shareIcon}>↗</Text>
       </Pressable>
@@ -33,11 +38,24 @@ const styles = StyleSheet.create({
     marginBottom: spacing.lg,
     position: "relative",
   },
+  nameRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 4,
+    marginTop: -8,
+    paddingHorizontal: 4,
+  },
   name: {
     fontFamily: undefined,
-    fontSize: 20,
+    fontSize: 18,
     color: colors.ink,
-    marginTop: -8,
+    fontWeight: "600",
+    maxWidth: 110,
+  },
+  editIcon: {
+    fontSize: 14,
+    color: colors.accent,
     fontWeight: "600",
   },
   shareButton: {

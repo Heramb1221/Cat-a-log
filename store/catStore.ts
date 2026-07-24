@@ -17,6 +17,8 @@ interface CatState {
   discardDraft: () => Promise<void>;
 
   saveDraft: (name: string) => void;
+  updateCatName: (id: string, newName: string) => void;
+  deleteCat: (id: string) => Promise<void>;
 
   uniqueBreedCount: () => number;
 }
@@ -64,6 +66,26 @@ export const useCatStore = create<CatState>()(
         set((state) => ({
           savedCats: [newCat, ...state.savedCats],
           draft: null,
+        }));
+      },
+
+      updateCatName: (id, newName) => {
+        const trimmed = newName.trim() || "Unnamed cat";
+        set((state) => ({
+          savedCats: state.savedCats.map((cat) =>
+            cat.id === id ? { ...cat, name: trimmed } : cat
+          ),
+        }));
+      },
+
+      deleteCat: async (id) => {
+        const { savedCats } = get();
+        const catToDelete = savedCats.find((c) => c.id === id);
+        if (catToDelete?.stickerUri) {
+          await deleteStickerFile(catToDelete.stickerUri);
+        }
+        set((state) => ({
+          savedCats: state.savedCats.filter((cat) => cat.id !== id),
         }));
       },
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Modal,
   View,
@@ -25,10 +25,15 @@ interface NameCatModalProps {
 export function NameCatModal({ visible, initialName, onCancel, onSave }: NameCatModalProps) {
   const [name, setName] = useState(initialName ?? "");
 
+  useEffect(() => {
+    if (visible) {
+      setName(initialName ?? "");
+    }
+  }, [visible, initialName]);
+
   const handleSave = () => {
     const trimmed = name.trim();
     onSave(trimmed);
-    setName("");
   };
 
   return (

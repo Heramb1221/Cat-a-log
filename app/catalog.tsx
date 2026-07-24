@@ -6,6 +6,7 @@ import { useCatStore } from "@/store/catStore";
 import { PaperBackground } from "@/components/PaperBackground";
 import { ProgressHeader } from "@/components/ProgressHeader";
 import { CatGridCard } from "@/components/CatGridCard";
+import { NameCatModal } from "@/components/NameCatModal";
 import { shareSticker, ShareUnavailableError } from "@/services/share";
 import type { SavedCat } from "@/types";
 import { colors, spacing } from "@/constants/theme";
@@ -16,8 +17,10 @@ export default function CatalogScreen() {
   const router = useRouter();
   const savedCats = useCatStore((s) => s.savedCats);
   const uniqueBreedCount = useCatStore((s) => s.uniqueBreedCount);
+  const updateCatName = useCatStore((s) => s.updateCatName);
   const [sortMode, setSortMode] = useState<SortMode>("newest");
   const [shareError, setShareError] = useState<string | null>(null);
+  const [editingCat, setEditingCat] = useState<SavedCat | null>(null);
 
   const sortedCats = [...savedCats].sort((a, b) => {
     if (sortMode === "newest") return b.createdAt - a.createdAt;
@@ -79,6 +82,7 @@ export default function CatalogScreen() {
               <CatGridCard
                 cat={item}
                 onSharePress={() => handleShare(item)}
+                onRenamePress={() => setEditingCat(item)}
               />
             )}
           />
@@ -88,6 +92,18 @@ export default function CatalogScreen() {
           <Text style={styles.fabIcon}>➤</Text>
         </Pressable>
       </SafeAreaView>
+
+      <NameCatModal
+        visible={editingCat !== null}
+        initialName={editingCat?.name ?? ""}
+        onCancel={() => setEditingCat(null)}
+        onSave={(newName) => {
+          if (editingCat) {
+            updateCatName(editingCat.id, newName);
+          }
+          setEditingCat(null);
+        }}
+      />
     </PaperBackground>
   );
 }
